@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Birthday Điềm Dler 🎂 | Lá Thư Tri Ân & Cuốn Sổ Kỉ Niệm</title>
+  
+  <!-- Google Fonts: Plus Jakarta Sans for UI, Dancing Script for handwritten letters -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
+  
+  <!-- Canvas Confetti & Html2Canvas for photo saving -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Floating Ambient Particles & Balloons -->
+  <div class="ambient-background" id="ambientBg">
+    <div class="glow-orb orb-1"></div>
+    <div class="glow-orb orb-2"></div>
+    <div class="glow-orb orb-3"></div>
+  </div>
+
+  <!-- Music Controller Floating Bar -->
+  <div class="music-floating-pill">
+    <button id="musicToggleBtn" class="pill-btn" title="Bật/Tắt nhạc sinh nhật nhẹ nhàng">
+      <span class="music-icon-anim" id="musicIconAnim">🎵</span>
+      <span id="musicText">Bật Nhạc Sinh Nhật</span>
+    </button>
+  </div>
+
+  <!-- Main Container -->
+  <main class="page-container">
+
+    <!-- Hero Header -->
+    <header class="hero-section text-center">
+      <div class="badge-pill">
+        <span class="sparkle">✨</span>
+        <span>Hôm nay là ngày đặc biệt • 18/09</span>
+        <span class="sparkle">✨</span>
+      </div>
+
+      <!-- Avatar Sinh Nhật Của Điềm Dler (Cố định để bạn bè ngắm) -->
+      <div class="hero-avatar-wrap">
+        <div class="avatar-ring" onclick="openLightbox('images/anh1.jpg', 'Điềm Dler - Chàng trai sinh nhật hôm nay 🎂')" title="Nhấn để ngắm ảnh Điềm Dler phóng to ✨">
+          <img id="diemAvatarImg" src="images/anh1.jpg" alt="Điềm Dler" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400';">
+          <div class="avatar-hat-badge">🥳</div>
+          <div class="avatar-zoom-badge">
+            <i data-lucide="zoom-in"></i>
+          </div>
+        </div>
+        <p class="avatar-hint">Chàng trai sinh nhật hôm nay • <strong>Điềm Dler</strong> ✨</p>
+      </div>
+
+      <h1 class="main-title">
+        Sinh Nhật <span class="gradient-text">Điềm Dler</span> 🎂
+      </h1>
+
+      <p class="hero-subtitle">
+        "Thêm một tuổi mới, cảm ơn bạn vì đã luôn là một phần thật đẹp, thật ý nghĩa trong cuốn nhật ký thanh xuân và kỉ niệm của Điềm!"
+      </p>
+
+      <div class="quick-stats-row">
+        <div class="stat-card">
+          <span class="stat-emoji">🎈</span>
+          <span class="stat-val">365+ Ngày</span>
+          <span class="stat-label">Đầy ắp kỉ niệm</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-emoji">💌</span>
+          <span class="stat-val">Vô hạn</span>
+          <span class="stat-label">Lời tri ân gửi bạn</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-emoji">✨</span>
+          <span class="stat-val">Mãi mãi</span>
+          <span class="stat-label">Trân quý tình bạn</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- SECTION 1: Form Nhập Thông Tin Nhận Thư -->
+    <section class="card-box form-section" id="formSection">
+      <div class="box-header">
+        <div class="stamp-icon">✉️</div>
+        <h2>Nhận Lá Thư Riêng Từ Điềm Dler</h2>
+        <p>Hãy cho Điềm biết bạn là ai để bức thư được viết dành riêng cho bạn nhé!</p>
+      </div>
+
+      <form id="letterForm" class="letter-form" onsubmit="event.preventDefault(); handleOpenLetter();">
+        <div class="form-grid">
+          <!-- Tên -->
+          <div class="input-group">
+            <label for="userName">
+              <i data-lucide="user"></i> Tên của bạn <span class="required">*</span>
+            </label>
+            <input 
+              type="text" 
+              id="userName" 
+              placeholder="VD: Hải Nam, Lan Anh, Bé Mèo..." 
+              required 
+              maxlength="50"
+              autocomplete="name"
+            >
+          </div>
+
+          <!-- Tuổi / Năm sinh -->
+          <div class="input-group">
+            <label for="userAge">
+              <i data-lucide="calendar"></i> Tuổi của bạn (hoặc năm sinh)
+            </label>
+            <input 
+              type="text" 
+              id="userAge" 
+              placeholder="VD: 22 hoặc 2002 (tùy chọn)" 
+              maxlength="10"
+            >
+          </div>
+        </div>
+
+        <!-- Mối quan hệ với Điềm -->
+        <div class="input-group">
+          <label for="userRelation">
+            <i data-lucide="heart-handshake"></i> Bạn là gì của Điềm Dler? <span class="required">*</span>
+          </label>
+          <select id="userRelation" required>
+            <option value="" disabled selected>-- Chọn mối quan hệ với Điềm --</option>
+            <option value="bestie">🍻 Bạn thân chí cốt / Tri kỷ kề vai sát cánh</option>
+            <option value="schoolmate">🎒 Bạn học / Đồng môn thanh xuân vườn trường</option>
+            <option value="colleague">💼 Đồng nghiệp / Chiến hữu cùng cày cuốc</option>
+            <option value="family">🏡 Anh / Chị / Em / Gia đình yêu thương</option>
+            <option value="crush">❤️ Crush / Người thương / Người đặc biệt trong lòng</option>
+            <option value="close_friend">✨ Bạn bè tốt / Người bạn luôn ủng hộ Điềm</option>
+            <option value="cyber_friend">🌐 Bạn trên mạng / Tri kỷ bốn phương</option>
+            <option value="supporter">🌟 Người luôn dõi theo và chúc phúc cho Điềm</option>
+          </select>
+        </div>
+
+        <!-- Kỉ niệm / Lời nhắn thêm (Tùy chọn) -->
+        <div class="input-group">
+          <label for="userMemory">
+            <i data-lucide="sparkles"></i> Kỉ niệm đáng nhớ hoặc Biệt danh Điềm hay gọi bạn
+          </label>
+          <input 
+            type="text" 
+            id="userMemory" 
+            placeholder="VD: Nhớ lần đi ăn ốc cùng nhau, hay gọi là Heo Con..."
+            maxlength="100"
+          >
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="cta-button pulse-btn" id="submitBtn">
+          <span class="btn-sparkle">✨</span>
+          <span>Mở Lá Thư Của Bạn Ngay</span>
+          <span class="btn-arrow">💌</span>
+        </button>
+      </form>
+    </section>
+
+    <!-- SECTION 2: Phong Bì Thư 3D & Lá Thư Tri Ân (Ẩn ban đầu, bung mở khi submit) -->
+    <section class="letter-display-section hidden" id="letterDisplaySection">
+      
+      <!-- Interactive 3D Envelope Wrapper -->
+      <div class="envelope-wrapper" id="envelopeWrapper">
+        <div class="envelope" id="envelope">
+          <div class="envelope-flap" id="envelopeFlap"></div>
+          <div class="envelope-pocket"></div>
+          <div class="envelope-wax-seal" id="waxSeal" onclick="triggerLetterReveal()">
+            <div class="seal-inner">D</div>
+          </div>
+          <div class="envelope-hint">Nhấn vào con dấu niêm phong "D" để mở thư! 👆</div>
+        </div>
+      </div>
+
+      <!-- Lá Thư Nội Dung Chi Tiết (Chiếu sáng sau khi phong bì mở) -->
+      <div class="letter-paper-card hidden" id="letterPaperCard">
+        <!-- Trang trí tem thư và con dấu bưu điện -->
+        <div class="postage-stamp">
+          <div class="stamp-border">
+            <span class="stamp-icon-inner">🎂</span>
+            <span class="stamp-text">DIEM DLER</span>
+            <span class="stamp-date">18.09</span>
+          </div>
+        </div>
+
+        <div class="letter-header">
+          <div class="letter-salutation" id="letterSalutation">
+            Gửi người bạn thân thương,
+          </div>
+          <div class="letter-date" id="letterDate">
+            Một ngày thu ngập tràn ánh nắng và nụ cười
+          </div>
+        </div>
+
+        <div class="letter-body" id="letterBody">
+          <!-- Nội dung thư được tạo động bằng JavaScript dựa theo tên, tuổi, mối quan hệ -->
+        </div>
+
+        <!-- Lời chúc riêng Điềm gửi tặng mọi người -->
+        <div class="letter-blessing-box" id="letterBlessingBox">
+          <div class="blessing-title">
+            <span>🎁 Món Quà & Lời Chúc Điềm Dành Tặng Bạn:</span>
+          </div>
+          <p id="letterBlessingContent">
+            Chúc bạn luôn ngập tràn may mắn, nở nụ cười rạng rỡ mỗi ngày, công việc hanh thông và mọi ước mơ đều sớm trở thành hiện thực!
+          </p>
+        </div>
+
+        <!-- Kí tên của Điềm Dler -->
+        <div class="letter-footer">
+          <div class="signature-wrap">
+            <p class="sig-note">Người luôn trân trọng kỉ niệm cùng bạn,</p>
+            <p class="sig-name">Điềm Dler ✨</p>
+          </div>
+        </div>
+
+        <!-- 3 Polaroid Kỉ Niệm Cố Định Của Điềm Dler -->
+        <div class="letter-polaroids-header text-center">
+          <p class="polaroid-title-hint">📸 <em>Những khoảnh khắc của Điềm Dler (Nhấn vào ảnh để ngắm ảnh to nhé!)</em></p>
+        </div>
+
+        <div class="letter-polaroids">
+          <div class="polaroid-item item-1" onclick="openLightbox('images/anh2.jpg', 'Điềm Dler - Thần thái rạng ngời ✨')" title="Nhấn để xem ảnh phóng to">
+            <div class="polaroid-tape"></div>
+            <div class="polaroid-img-box">
+              <img id="polaroidImg1" src="images/anh2.jpg" alt="Điềm Dler" loading="lazy">
+              <div class="polaroid-hover-badge">
+                <i data-lucide="zoom-in"></i> <span>Xem ảnh</span>
+              </div>
+            </div>
+            <div class="polaroid-caption">Thần thái đỉnh cao ✨</div>
+          </div>
+
+          <div class="polaroid-item item-2" onclick="openLightbox('images/anh3.jpg', 'Điềm Dler - Góc nghiêng thanh xuân 🌸')" title="Nhấn để xem ảnh phóng to">
+            <div class="polaroid-tape"></div>
+            <div class="polaroid-img-box">
+              <img id="polaroidImg2" src="images/anh3.jpg" alt="Điềm Dler" loading="lazy">
+              <div class="polaroid-hover-badge">
+                <i data-lucide="zoom-in"></i> <span>Xem ảnh</span>
+              </div>
+            </div>
+            <div class="polaroid-caption">Góc nghiêng thanh xuân 🌸</div>
+          </div>
+
+          <div class="polaroid-item item-3" onclick="openLightbox('images/anh4.jpg', 'Điềm Dler - Tuổi mới luôn rực rỡ 🚀')" title="Nhấn để xem ảnh phóng to">
+            <div class="polaroid-tape"></div>
+            <div class="polaroid-img-box">
+              <img id="polaroidImg3" src="images/anh4.jpg" alt="Điềm Dler" loading="lazy">
+              <div class="polaroid-hover-badge">
+                <i data-lucide="zoom-in"></i> <span>Xem ảnh</span>
+              </div>
+            </div>
+            <div class="polaroid-caption">Tuổi mới rực rỡ 🚀</div>
+          </div>
+        </div>
+
+        <!-- Thanh công cụ hành động -->
+        <div class="letter-actions-bar no-print">
+          <button class="action-btn btn-dice" onclick="generateAnotherMessage()" title="Xem một lời chúc khác">
+            <i data-lucide="shuffle"></i> Đổi Lời Chúc Khác
+          </button>
+
+          <button class="action-btn btn-download" onclick="downloadLetterAsImage()" title="Tải ảnh thư làm kỉ niệm">
+            <i data-lucide="download"></i> Tải Ảnh Về Máy
+          </button>
+
+          <button class="action-btn btn-reply" onclick="scrollToMemorySection()" title="Đăng ảnh kỉ niệm cùng Điềm">
+            <i data-lucide="camera"></i> Đăng Ảnh Cùng Điềm
+          </button>
+
+          <button class="action-btn btn-reset" onclick="resetFormForAnother()" title="Nhập cho người khác">
+            <i data-lucide="refresh-cw"></i> Nhập Tên Khác
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: Tương Tác Thổi Nến Ước Nguyện (Interactive Cake) -->
+    <section class="card-box cake-section text-center">
+      <div class="box-header">
+        <div class="stamp-icon">🎂</div>
+        <h2>Góc Thổi Nến Cùng Điềm Dler</h2>
+        <p>Hãy cùng Điềm nhắm mắt ước một điều ước và chạm vào ngọn nến để thổi nhé!</p>
+      </div>
+
+      <div class="cake-container" id="cakeContainer" onclick="blowCandle()">
+        <div class="cake-plate"></div>
+        <div class="cake-body">
+          <div class="cake-layer layer-bottom"></div>
+          <div class="cake-layer layer-middle"></div>
+          <div class="cake-layer layer-top">
+            <div class="icing-drips"></div>
+          </div>
+          <div class="candle">
+            <div class="candle-stick"></div>
+            <div class="candle-flame" id="candleFlame"></div>
+            <div class="candle-smoke hidden" id="candleSmoke">💨</div>
+          </div>
+        </div>
+      </div>
+
+      <p class="cake-hint" id="cakeHint">
+        👉 <strong>Nhấn vào nến</strong> để thổi tắt và gửi điều ước lên vũ trụ! 👈
+      </p>
+
+      <div class="wish-reveal-box hidden" id="wishRevealBox">
+        <div class="wish-icon">🌟</div>
+        <h3>Điều Ước Của Điềm Dler Đã Được Gửi Đi!</h3>
+        <p class="wish-quote">
+          "Mong cho tất cả những người bạn tuyệt vời quanh tôi luôn bình an, mạnh khỏe, nhiều tiền và ngập tràn hạnh phúc! Cảm ơn vì chúng ta đã có nhau trên đời!"
+        </p>
+      </div>
+    </section>
+
+    <!-- SECTION 4: GÓC KỈ NIỆM CỦA BẠN & ĐIỀM DLER (ĐĂNG ẢNH & LƯU DANH SÁCH) -->
+    <section class="card-box memory-section" id="memorySection">
+      <div class="box-header">
+        <div class="stamp-icon">📸</div>
+        <h2>Góc Kỉ Niệm: Bạn & Điềm Dler</h2>
+        <p>Hãy đăng những bức ảnh chụp chung của bạn và Điềm (hoặc ảnh kỉ niệm bạn muốn gửi tặng) để cùng Điềm lưu giữ thanh xuân nhé!</p>
+      </div>
+
+      <!-- Form Đăng Ảnh Kỉ Niệm -->
+      <form id="memoryForm" class="memory-upload-card" onsubmit="event.preventDefault(); submitSharedMemory();">
+        <div class="form-grid">
+          <div class="input-group">
+            <label for="memAuthor">
+              <i data-lucide="user"></i> Tên của bạn <span class="required">*</span>
+            </label>
+            <input type="text" id="memAuthor" placeholder="VD: Hải Nam, Lan Anh, Nhóm bạn..." required maxlength="50">
+          </div>
+
+          <div class="input-group">
+            <label for="memTitle">
+              <i data-lucide="bookmark"></i> Tiêu đề bức ảnh / Kỉ niệm <span class="required">*</span>
+            </label>
+            <input type="text" id="memTitle" placeholder="VD: Chuyến đi Đà Lạt 2024, Ngày đầu gặp Điềm..." required maxlength="60">
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <div class="input-group">
+            <label for="memDate">
+              <i data-lucide="calendar"></i> Thời gian / Cột mốc kỉ niệm
+            </label>
+            <input type="text" id="memDate" placeholder="VD: Tháng 6/2024, Mùa hè năm ấy..." maxlength="40">
+          </div>
+
+          <!-- File Upload Zone -->
+          <div class="input-group">
+            <label>
+              <i data-lucide="image-plus"></i> Chọn ảnh chụp cùng Điềm <span class="required">*</span>
+            </label>
+            <div class="file-dropzone" onclick="document.getElementById('memPhotoInput').click()">
+              <input type="file" id="memPhotoInput" accept="image/*" style="display:none" onchange="handleMemoryFileSelect(event)">
+              <div class="dropzone-content" id="dropzoneContent">
+                <i data-lucide="upload-cloud" class="drop-icon"></i>
+                <span class="drop-text">Bấm vào đây để chọn ảnh từ máy bạn 📷</span>
+                <span class="drop-sub">(Hỗ trợ ảnh điện thoại & máy tính: JPG, PNG, WEBP)</span>
+              </div>
+              <!-- Preview Thumbnail -->
+              <div class="dropzone-preview hidden" id="dropzonePreview">
+                <img id="previewImg" src="" alt="Xem trước">
+                <button type="button" class="btn-remove-preview" onclick="event.stopPropagation(); removeMemoryPreview();" title="Bỏ chọn ảnh này">✕ Đổi ảnh khác</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label for="memStory">
+            <i data-lucide="message-square"></i> Đôi dòng câu chuyện hoặc lời nhắn gửi Điềm
+          </label>
+          <textarea id="memStory" rows="2" placeholder="Kể một chút về bức ảnh hoặc gửi lời nhắn nhủ, Điềm sẽ đọc từng chữ một đấy!..." maxlength="300"></textarea>
+        </div>
+
+        <button type="submit" class="cta-button btn-save-memory" id="memSubmitBtn">
+          <i data-lucide="heart-handshake"></i>
+          <span>Lưu Kỉ Niệm Vào Cuốn Sổ Kí Ức</span>
+          <span class="btn-sparkle">✨</span>
+        </button>
+      </form>
+
+      <!-- Danh Sách Kỉ Niệm (Memory Scrapbook Wall) -->
+      <div class="memory-wall-wrap">
+        <div class="memory-wall-header">
+          <div class="wall-title-box">
+            <h3>✨ Cuốn Sổ Kí Ức Cùng Điềm Dler (<span id="memoryCount">0</span> khoảnh khắc)</h3>
+            <p class="wall-desc">Tất cả những kỉ niệm bạn bè gửi gắm sẽ được lưu giữ mãi mãi ở đây!</p>
+          </div>
+        </div>
+
+        <!-- Grid hiển thị kỉ niệm -->
+        <div class="memory-grid" id="memoryGrid">
+          <!-- Rendered dynamically -->
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 5: Sổ Lưu Bút Bạn Bè Gửi Lại Lời Chúc (Guestbook) -->
+    <section class="card-box guestbook-section" id="guestbookSection">
+      <div class="box-header">
+        <div class="stamp-icon">💖</div>
+        <h2>Sổ Lưu Bút Sinh Nhật Điềm Dler</h2>
+        <p>Gửi lại vài dòng nhắn nhủ, chúc mừng sinh nhật cho Điềm. Những lời chúc này sẽ được lưu giữ mãi mãi!</p>
+      </div>
+
+      <div class="guestbook-form-wrap">
+        <div class="input-group">
+          <input type="text" id="gbAuthor" placeholder="Tên hoặc biệt danh của bạn..." maxlength="50">
+        </div>
+        <div class="input-group">
+          <textarea id="gbMessage" rows="3" placeholder="Viết lời chúc mừng sinh nhật gửi đến Điềm Dler ở đây nhé... (VD: Chúc Điềm tuổi mới vạn sự hanh thông, sớm mua nhà tậu xe!)" maxlength="300"></textarea>
+        </div>
+        <div class="gb-submit-row">
+          <div class="emoji-picker-quick">
+            <span onclick="addEmojiToGB('🎂')">🎂</span>
+            <span onclick="addEmojiToGB('🎉')">🎉</span>
+            <span onclick="addEmojiToGB('🍻')">🍻</span>
+            <span onclick="addEmojiToGB('❤️')">❤️</span>
+            <span onclick="addEmojiToGB('🚀')">🚀</span>
+            <span onclick="addEmojiToGB('🥰')">🥰</span>
+            <span onclick="addEmojiToGB('🎁')">🎁</span>
+          </div>
+          <button type="button" class="btn-send-wish" onclick="submitGuestbookWish()">
+            <i data-lucide="send"></i> Gửi Lời Chúc
+          </button>
+        </div>
+      </div>
+
+      <!-- Danh Sách Lời Chúc Bạn Bè -->
+      <div class="guestbook-list-wrap">
+        <div class="gb-list-header">
+          <h3>Các lời chúc từ bạn bè (<span id="gbCount">0</span>)</h3>
+        </div>
+        <div class="guestbook-messages-grid" id="guestbookMessagesGrid">
+          <!-- Rendered dynamically -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer-section text-center">
+      <p>Made with ❤️ & trân quý từng kỉ niệm by <strong>Điềm Dler</strong></p>
+      <p class="footer-sub">Happy Birthday to Me & Thank You All for Being Amazing! 🎂✨</p>
+    </footer>
+
+  </main>
+
+  <!-- Lightbox Modal Phóng To Ảnh -->
+  <div id="imageLightbox" class="lightbox-modal hidden" onclick="closeLightbox(event)">
+    <div class="lightbox-content" onclick="event.stopPropagation()">
+      <button class="lightbox-close-btn" onclick="closeLightbox()">&times;</button>
+      <img id="lightboxImg" src="" alt="Phóng to ảnh">
+      <div class="lightbox-caption" id="lightboxCaption"></div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
